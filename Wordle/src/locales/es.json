@@ -1,0 +1,98 @@
+{
+    "home": {
+        "guess_word": "Adivina la palabra oculta",
+        "log":"Iniciar sesión",
+        "play": "Jugar",
+        "words": "Cientos de palabras en multiples modos.",
+        "welcome": "Bienvenido ",
+        "By": "Creado por: "
+    },
+
+    "select": {
+        "casual": "Partida casual",
+        "discrete": "Combinatoria",
+        "config": "Configuración",
+        "how": "¿Cómo jugar?",
+        "class": "Clasificación"
+    },
+    "config": {
+        "config": "Configuración",
+        "language": "Idioma",
+        "dark": "Modo oscuro",
+        "light": "Modo claro",
+        "system": "Sistema",
+        "theme": "Temas", 
+        "logout": "Cerrar sesión"
+    },
+    "rules_modal": {
+        "title": "Reglas del Juego",
+        "rule_1": "Cada respuesta debe ser una palabra válida de 5 letras.",
+        "rule_2": "El color de una cambiará para mostrarte si es correcta o no.",
+        "rule_3": ": La letra está en la palabra pero no en la posición correcta.",
+        "rule_4": ": La letra está en la posición correcta.",
+        "rule_5": ": La letra no está en la palabra.",
+        "green": "Verde",
+        "yellow": "Amarillo",
+        "gray": "Gris",
+        "close": "Cerrar"
+    },
+    "game": {
+        "titleNotWord": "No esta en la lista",
+        "notWord":"La palabra no esta en la lista de palabras, intenta otra vez",
+        "accept": "aceptar",
+        "winner": "Felicidades, ganaste",
+        "point": "puntos",
+        "lose": "Perdiste, intentalo otra vez",
+        "winHeader": "¡¡¡Ganaste!!!",
+        "loseHeader": "Perdiste",
+        "word": "La palabra es:",
+        "error": "Error actualizando datos"
+    },
+    "register": {
+        "nameError": "Nombre invalido",
+        "mailError": "Correo invalido",
+        "passwordError": "Contraseña debil, usa letras y numeros",
+        "confirmedError": "Contraseñas distintas",
+        "header": "Crear cuenta",
+        "placeName": "Ingresa un nombre...",
+        "placeEmail": "Ingresa tu correo...",
+        "placePassword": "Contraseña...",
+        "placeConfirm":  "Confirmar contraseña...",
+        "register": "Registrarse",
+        "link": "¿Ya tienes cuenta? Inicia sesión"
+    },
+    "log": {
+        "header": "Iniciar sesión",
+        "placeName": "Ingresa tu nombre o correo...",
+        "link": "¿Primera vez? Create una cuenta",
+        "error": "El usuario no inicio sesión, verifica si el nombre o la contraseña estan bien escritos",
+        "ex": "Inicio de sesión exitoso",
+        "exHeader": "Exito",
+        "errorSign": "El usuario no fue creado, email o nombre ya usados o no use caracteres especiales",
+        "exSign": "El usuario fue registrado"
+    },
+    "profile": {
+        "share": "Compartir",
+        "casualTitle": "Casual",
+        "casualWins": "Victorias",
+        "casualPlays": "Jugadas",
+        "casualPoints": "Puntos",
+        "structureTitle": "Combinatoria",
+        "totalSummary": "Resumen Total",
+        "error": "Error, intenta de nuevo luego",
+        "shareError": "Error al compartir",
+        "t": "Perfil",
+        "m1": "Ven a jugar wordle conmigo! tengo: ",
+        "m2": " puntos, mas unas increibles: ",
+        "m3": " Victoria/s"
+    },
+    "class": {
+        "error": "Error al buscar la clasificación, inténtalo de nuevo más tarde",
+        "title": "Clasificación",
+        "pos": "Posición",
+        "n":"Nombre",
+        "p":"Puntos",
+        "v":"Victorias",
+        "m":"Partidas"
+    }
+}

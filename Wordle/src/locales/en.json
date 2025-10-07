@@ -1,0 +1,101 @@
+{
+    "home": {
+        "guess_word": "Guess the hidden word",
+        "log":"Log in",
+        "play": "Play",
+        "words": "Hundreds of words in multiple modes.",
+        "welcome": "Welcome ",
+        "By": "Created by: "
+    },
+
+    "select": {
+        "casual": "Casual match",
+        "discrete": "Combinatorics",
+        "config": "Settings",
+        "how": "How to play?",
+        "class": "Classification"
+    },
+    "config": {
+        "config": "Settings",
+        "language": "Language",
+        "system": "System default",
+        "theme": "Themes", 
+        "dark": "Dark mode",
+        "light": "Light mode",
+        "logout": "Log out"
+    },
+
+    "rules_modal": {
+        "title": "Game Rules",
+        "rule_1": "Each guess must be a valid word with the given number of letters.",
+        "rule_2": "The color of a tile will change to show how close your guess was.",
+        "rule_3": ": The letter is in the word and in the correct position.",
+        "rule_4": ": The letter is in the word but not in the correct position.",
+        "rule_5": ": The letter is not in the word.",
+        "green": "Green",
+        "yellow": "Yellow",
+        "gray": "Gray",
+        "close": "Close"
+    },
+    "game": {
+        "titleNotWord": "Not in the word list",
+        "notWord": "The word is not in the word list, try again",
+        "accept": "accept",
+        "point": "points",
+        "winner": "Congratulations, you won",
+        "lose": "You lost, try again",
+        "winHeader": "You won!!!",
+        "loseHeader": "You lost",
+        "word": "The word is:",
+        "error": "Error updating data"
+    },
+
+    "register": {
+        "nameError": "Invalid name",
+        "mailError": "Invalid email",
+        "passwordError": "Weak password, use letters and numbers",
+        "confirmedError": "Different passwords",
+        "header": "Create account",
+        "placeName": "Enter a name...",
+        "placeEmail": "Enter your email...",
+        "placePassword": "Password...",
+        "placeConfirm": "Confirm password...",
+        "register": "Sign up",
+        "link": "Do you already have an account? Sign in"
+    },
+    "log": {
+        "header": "Login",
+        "placeName": "Enter your name or email...",
+        "link": "First time? Create an account",
+        "error": "The user did not log in, check if the name or password is spelled correctly",
+        "ex": "Login successful",
+        "exHeader": "Success",
+        "errorSign": "The user was not created, email or name already used, or don't use special characters",
+        "exSign": "The user was registered"
+    },
+    "profile": {
+        "share": "Share",
+        "casualTitle": "Casuals",
+        "casualWins": "Wins",
+        "casualPlays": "Played",
+        "casualPoints": "Points",
+        "structureTitle": "Combinatorics",
+        "totalSummary": "Total Summary",
+        "error": "Error, try again later",
+        "shareError": "Sharing error",
+        "t": "Profile",
+        "m1": "Come play Wordle with me! I have ",
+        "m2": " points and an amazing ",
+        "m3": " win/s"
+
+    },
+    "class": {
+        "error": "Error searching for user rating, try again later",
+        "title": "Classification",
+        "pos": "Position",
+        "n":"Name",
+        "p":"Points",
+        "v":"Victories",
+        "m":"Matches"
+    }
+}
