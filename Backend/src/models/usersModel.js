@@ -26,12 +26,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        validate: {
-            validator: (value) => {
-                return /^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(value)
-            },
-            message: "Invalid password"
-        }
     },
     status: {
         type: Boolean,
