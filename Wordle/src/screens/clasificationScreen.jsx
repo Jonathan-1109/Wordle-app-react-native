@@ -1,7 +1,6 @@
 import { Text, View, StyleSheet, ActivityIndicator, Alert, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
-import { CommonActions } from '@react-navigation/native'
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import { useState, useLayoutEffect, useEffect, useContext } from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import { useState, useLayoutEffect, useEffect } from 'react';
 import { Colors } from '../constants/colors';
 
 import { useTranslation } from 'react-i18next';
@@ -11,9 +10,8 @@ import BackButton from '../components/Buttons/backButton';
 import ProfileButton from '../components/Buttons/profileButton';
 
 import { useTheme } from '../context/themeContext';
-import { AuthContext } from '../context/authContext';
 
-import api from '../api/api';
+import { fetchData } from '../services/apiFunctions';
 
 const {height, width} = Dimensions.get('window')
 
@@ -23,7 +21,6 @@ export default function ClasificationScreen({navigation}) {
   const { theme, colorsTheme } = useTheme(); 
   const [data, setData] = useState(null)
   const [isLoading, setIsLoading]  = useState(false)
-  const {logout} = useContext(AuthContext)
   const [mode, setMode] = useState(1)
   const max = Math.floor(width/50)
   const avatars = ['🥇','🥈','🥉']
@@ -45,24 +42,20 @@ export default function ClasificationScreen({navigation}) {
     })
   }, [navigation, theme])
 
- useEffect( () => {
-  
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        const response = await api.get(`/data/class/${mode}`);
-        setData(response.data.best);
-        setIsLoading(false)
-      } catch (err) {
-        Alert.alert("Error", t("class.error"), [{text: t('game.accept'), style:'cancel'}])
-        setIsLoading(false)
-        if (err.status === 401) {
-          await logout()
-          navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
-        }
-      }
-    };
-    fetchData();
+  useEffect(() => {
+
+    setIsLoading(true)
+    fetchData(mode)
+    .then(response => {
+      setData(response)
+      setIsLoading(false)
+    })
+    .catch(err => {
+      console.error(err.message)
+      Alert.alert("Error", t("class.error"), [{text: t('game.accept'), style:'cancel'}])
+      setIsLoading(false)
+    })
+
   }, [mode])
 
   return (

@@ -14,8 +14,8 @@ import BackButton from '../../components/Buttons/backButton';
 import { useTheme } from '../../context/themeContext';
 import { AuthContext } from '../../context/authContext';
 
-import api from '../../api/api';
 import Header from '../../components/header';
+import { login } from '../../services/apiFunctions';
 
 export default function LoginScreen({navigation}) {
   const {t} = useTranslation();
@@ -30,28 +30,29 @@ export default function LoginScreen({navigation}) {
 
   const {saveLogin} = useContext(AuthContext)
 
-  const loginAccount = async () => {
+  const loginAccount = () => {
 
-    const data = {
-      name: name.trim(),
-      password: password
-    }
-    await api.post('/users/login', data)
-    .then(async (response) => {
-      await saveLogin(response.data)
+    login(name,password)
+    .then(response => {
+      saveLogin(response)
 
       Alert.alert(t("log.exHeader"), t("log.ex"),
         [{text: t('game.accept'), style:'cancel'}],
         {cancelable:true}
       )
+
       navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
 
     })
+
     .catch((err) => {
+      console.error(err.message)
+
       Alert.alert( "Error", t('log.error'),
         [{text: t('game.accept'), style:'cancel'}],
         {cancelable:true}
       )
+
       setIsButton(false)
     })
   }

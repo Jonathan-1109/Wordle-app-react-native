@@ -1,7 +1,7 @@
 import { Text, View, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform,
 ScrollView, Alert} from 'react-native';
 
-import { useState, useLayoutEffect, useContext } from 'react';
+import { useState, useLayoutEffect, useContext, useEffect } from 'react';
 import { Colors } from '../../constants/colors';
 
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,8 @@ import Header from '../../components/header';
 import { useTheme } from '../../context/themeContext';
 import { AuthContext } from '../../context/authContext';
 
-import api from '../../api/api';
+import { CommonActions } from '@react-navigation/native'
+import { register } from '../../services/apiFunctions';
 
 export default function RegisterScreen({navigation}) {
   const {t} = useTranslation();
@@ -35,7 +36,8 @@ export default function RegisterScreen({navigation}) {
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
 
-  const band = password === password2
+  const [band, setBand] = useState(false)
+  const [disabled, setDisabled] = useState(true)
   const [activateButton, setActivateButton] = useState(false)
 
   const {saveLogin} = useContext(AuthContext)
@@ -81,38 +83,32 @@ export default function RegisterScreen({navigation}) {
     setVerify(newVerify)
   }
 
-  const sendForm = async () => {
-    
-    const content = {
-      name: name.trim(),
-      mail: email.trim(),
-      password: password,
-      confirmPassword: password2
-    }
+  const sendForm = () => {
 
-    await api.post('/users/register', content)
-    .then( async (response) => {
-      await saveLogin(response.data)
+  register(name,email,password,password2)
+  .then( response => {
+    saveLogin(response)
 
-      Alert.alert(
-        t("log.exHeader"),
-        t("log.exSign"),
-        [{text: t('game.accept'), style:'cancel'}],
-        {cancelable:true}
-      )
+    Alert.alert(
+      t("log.exHeader"),
+      t("log.exSign"),
+      [{text: t('game.accept'), style:'cancel'}],
+      {cancelable:true}
+    )
 
-      navigation.replace("Home")
-    })
-    .catch(() => {
+    navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
+  })
+  .catch(err => {
+    console.error(err.message)
       
-      Alert.alert(
-        "Error",
-        t("log.errorSign"),
-        [{text: t('game.accept'), style:'cancel'}],
-        {cancelable:true}
-      )
+    Alert.alert(
+      "Error",
+      t("log.errorSign"),
+      [{text: t('game.accept'), style:'cancel'}],
+      {cancelable:true}
+    )
 
-      setActivateButton(false)
+    setActivateButton(false)
     })
   }
 
@@ -133,7 +129,13 @@ export default function RegisterScreen({navigation}) {
     })
   }, [navigation, theme, activateButton])
 
-  const disabled = !(verify.every((value) => value === true) && band)
+  useEffect(() => {
+    setBand(password === password2)
+  },[password,password2])
+
+  useEffect(() => {
+    setDisabled(!(verify.every((value) => value === true) && band))
+  }, [verify, band])
 
   return (
   

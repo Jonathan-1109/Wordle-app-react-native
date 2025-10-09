@@ -1,5 +1,4 @@
 import { useLayoutEffect, useContext} from 'react';
-import { CommonActions } from '@react-navigation/native'
 import { Alert, ScrollView} from 'react-native';
 import { SafeAreaView} from 'react-native-safe-area-context';
 
@@ -15,36 +14,17 @@ import i18next from '../../services/i18next';
 import { useTheme } from '../../context/themeContext';
 import { AuthContext } from '../../context/authContext.jsx';
 
-import api from '../../api/api.js';
 import { useEffect } from 'react';
 import { useCasualGame } from '../../hooks/useCasualGame.jsx';
+import { updateData } from '../../services/apiFunctions.js';
 
 export default function GameScreen({navigation}) {
   const {t, i18n} = useTranslation();
   const language = i18n.language
 
-  const { theme, colorsTheme } = useTheme(); 
-  const {isLogged, userDataInfo, logout} = useContext(AuthContext)
-
+  const { theme, colorsTheme } = useTheme()
+  const {isLogged, userDataInfo} = useContext(AuthContext)
   const casual = useCasualGame(6,5,language)  
-
-  const updateData = async () => {
-    const data = {
-      win: casual.status === 'winner' ? 1  : 0,
-      points: casual.points,
-      mode: 1
-    }
-    await api.put(`/data/newData/${userDataInfo.id}`,data)
-    .catch(async (err) => {
-      Alert.alert("Error",  t("game.error"), 
-      [{text: t('game.accept'), style:'cancel'}],
-      {cancelable:true})
-      if (err.status === 401) {
-        await logout()
-        navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
-      }
-    })
-  }
 
   useLayoutEffect(() => {
       navigation.setOptions({
@@ -61,8 +41,11 @@ export default function GameScreen({navigation}) {
     }, [navigation, theme])  
 
   useEffect(() => {
+
     if (casual.notWord) {
+
       casual.setNotWord(false)
+
       Alert.alert(
         t("game.titleNotWord"),
         t("game.notWord"),
@@ -70,11 +53,21 @@ export default function GameScreen({navigation}) {
         {cancelable:true})
     }
 
-    if (casual.status !== 'playing' && isLogged) {
-      updateData()
-    } 
+  }, [casual.notWord])
 
-  }, [casual.notWord, casual.status])
+  useEffect(() => {
+    if (casual.status !== 'playing' && isLogged) {
+      
+      updateData(userDataInfo.id,casual.status,casual.points,1)
+      .catch(err => {
+        console.error(err.message)
+                      
+        Alert.alert("Error",  t("game.error"), 
+        [{text: t('game.accept'), style:'cancel'}],
+        {cancelable:true})
+      })
+    }
+  }, [casual.status])
 
   return (
     <SafeAreaView style={{backgroundColor: colorsTheme.background, flex: 1}} edges={['bottom']}>

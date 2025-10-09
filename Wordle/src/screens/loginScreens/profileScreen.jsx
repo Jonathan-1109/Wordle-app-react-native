@@ -1,6 +1,5 @@
 import { Text, View, StyleSheet, Alert, Share,Image, ScrollView} from 'react-native';
 import { useState, useLayoutEffect, useEffect, useContext } from 'react';
-import { CommonActions } from '@react-navigation/native'
 import { Colors } from '../../constants/colors';
 
 import { useTranslation } from 'react-i18next';
@@ -11,9 +10,9 @@ import BackButton from '../../components/Buttons/backButton';
 
 import { useTheme } from '../../context/themeContext';
 
-import api from '../../api/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/authContext.jsx';
+import { profileData } from '../../services/apiFunctions.js';
 
 export default function ProfileScreen({navigation}) {
   const {t} = useTranslation();
@@ -21,16 +20,13 @@ export default function ProfileScreen({navigation}) {
   const { theme, colorsTheme } = useTheme(); 
   const [data, setData] = useState(null)
   const [data2, setData2] = useState(null)
-  const {userDataInfo, logout} = useContext(AuthContext)
+  const {userDataInfo} = useContext(AuthContext)
 
-   useEffect( () => {
+   useEffect(() => {
   
-    const fetchData = async () => {
-      try {
-
-        const response = await api.get(`/data/getData/${userDataInfo.id}`);
-        const values = response.data.values
-        values.forEach((value) => {
+    profileData(userDataInfo.id)
+    .then(response => {
+      response.forEach((value) => {
           if (value.modeID === 1) {
             setData(value)
           }
@@ -38,18 +34,11 @@ export default function ProfileScreen({navigation}) {
             setData2(value)
           } 
         })
-
-      } catch (err) {
-
+    })
+    .catch(err => {
+        console.error(err.message)
         Alert.alert("Error", t("profile.error"), [{text: t('game.accept'), style:'cancel'}])
-        if (err.status === 401) {
-          await logout()
-          navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
-        }
-
-      }
-    };
-    fetchData();
+    })
   }, [])
 
   useLayoutEffect(() => {

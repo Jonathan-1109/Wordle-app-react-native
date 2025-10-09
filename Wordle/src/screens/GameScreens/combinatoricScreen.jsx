@@ -1,5 +1,4 @@
 import { useLayoutEffect, useContext} from 'react';
-import { CommonActions } from '@react-navigation/native'
 import { Text, View, StyleSheet, Alert, Dimensions, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../../constants/colors.js';
@@ -15,11 +14,11 @@ import i18next from '../../services/i18next.js';
 
 import { useTheme } from '../../context/themeContext.jsx';
 
-import api from '../../api/api.js';
 import { AuthContext } from '../../context/authContext.jsx';
 
 import { useEffect } from 'react';
 import { useCombinatoricGame } from '../../hooks/useCombinatoricGame.jsx';
+import { updateData } from '../../services/apiFunctions.js';
 
 const {height, width} = Dimensions.get('window');
 
@@ -29,8 +28,7 @@ export default function CombinatoricScreen({navigation}) {
 
     const { theme, colorsTheme } = useTheme()
 
-    const {isLogged, userDataInfo, logout} = useContext(AuthContext)
-
+    const {isLogged, userDataInfo} = useContext(AuthContext)
     const combinatory = useCombinatoricGame(5,5,language)
 
     const newStyles = (status) => {
@@ -44,24 +42,6 @@ export default function CombinatoricScreen({navigation}) {
         }
     }
     
-    const updateData = async () => {
-        const data = {
-            win: combinatory.status === 'winner' ? 1  : 0,
-            points: combinatory.points,
-            mode: 2
-        }
-        await api.put(`/data/newData/${userDataInfo.id}`,data)
-        .catch(async (err) => {
-            Alert.alert("Error", t("game.error"), 
-            [{text: t('game.accept'), style:'cancel'}],
-            {cancelable:true})
-            if (err.status === 401) {
-                await logout()
-                navigation.dispatch( CommonActions.reset({ index: 0, routes: [{ name: 'Home' }]}))
-            }
-        })
-    }
-
     useLayoutEffect(() => {
         navigation.setOptions({
         headerTitle: () => (<Header/>),
@@ -76,19 +56,30 @@ export default function CombinatoricScreen({navigation}) {
     }, [navigation, theme])
 
     useEffect(() => {
-        if (combinatory.status !== 'playing' && isLogged) {
-            updateData()
-        }
-
         if (combinatory.notWord) {
             combinatory.setNotWord(false)
+
             Alert.alert(
                 t("game.titleNotWord"),
                 t("game.notWord"),
                 [{text: t('game.accept'), style:'cancel'}],
                 {cancelable:true})
+        }        
+    }, [combinatory.notWord])
+
+    useEffect(() => {
+        if (combinatory.status !== 'playing' && isLogged) {
+            updateData(userDataInfo.id,combinatory.status,combinatory.points,2)
+            .catch(err => {
+                console.error(err.message)
+
+                Alert.alert("Error",  t("game.error"), 
+                [{text: t('game.accept'), style:'cancel'}],
+                {cancelable:true})
+
+            })
         }
-    }, [combinatory.status, combinatory.notWord])
+    }, [combinatory.status])
 
     return (
         <SafeAreaView 
