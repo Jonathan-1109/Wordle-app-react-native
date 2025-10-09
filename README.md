@@ -1,5 +1,5 @@
-# Wordle – React Native Expo & MongoDB
-A Wordle built with React Native Expo and MongoDB, available in English and Spanish.
+# Wordle – React Native Expo, Express & MongoDB
+A Wordle built with React Native Expo, Express and MongoDB, available in English and Spanish.
 
 ## Instructions
 
