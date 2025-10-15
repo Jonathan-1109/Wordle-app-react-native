@@ -22,7 +22,7 @@ export default function ThemeScreen({navigation}) {
     useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: () => (
-          <Text style={[styles.textHeader, {color: colorsTheme.primary}]}>{t("config.language")}</Text>
+          <Text style={[styles.textHeader, {color: colorsTheme.primary}]}>{t("config.theme")}</Text>
         ),
         headerStyle: {
           backgroundColor: colorsTheme.header,
