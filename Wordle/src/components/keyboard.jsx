@@ -60,17 +60,17 @@ const KeyBoard = ({style, game}) => {
             </View>
 
             <View style={styles.containerButtons}>
-                <ImageBlock image={require('../assets/images/delete.png')} 
-                onPress={() => {game.deleteLetter(), Vibration.vibrate(60)}} 
-                disabled={disabled}/>
+                <ImageBlock image={require('../assets/images/enter.png')} 
+                onPress={() => {game.nextLine(), Vibration.vibrate(60)}} disabled={disabled} /> 
 
                 {['Z','X','C','V','B','N','M'].map(letter => (
                 <Block key={letter} label={letter} 
                 onPress={() => {game.selectLetter(letter), Vibration.vibrate(100)}} disabled={disabled}/>
                 ))}
 
-                <ImageBlock image={require('../assets/images/enter.png')} 
-                onPress={() => {game.nextLine(), Vibration.vibrate(60)}} disabled={disabled} />              
+                <ImageBlock image={require('../assets/images/delete.png')} 
+                onPress={() => {game.deleteLetter(), Vibration.vibrate(60)}} 
+                disabled={disabled}/>           
             </View>
         </Animated.View>
     )
