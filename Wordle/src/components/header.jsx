@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   textHeader: {
     fontSize: 40,
     fontWeight: 'bold',
+    marginTop: 11,
   },
 
   imageHeader: {
